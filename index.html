@@ -10,12 +10,75 @@
 <body>
 
     <script>
-        fetch('https://frozen-peak-89545-4e31db2f4b66.herokuapp.com/students')
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.error('There was a problem with your fetch operation:', error));
+        // Lấy ra dữ liệu
+        async function handleGetAPIUser() {
+            fetch('http://localhost:3000/api/tuanthanh/users')
+                .then(response => response.json())
+                .then(data => console.log(data));
+        }
+
+        // POST
+        async function handleCreateAPIUser() {
+            fetch('http://localhost:3000/api/tuanthanh/products', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: 'New User2',
+                    email: 'newuser@example.com',
+                    password: 'password123',
+                    age: 'password123'
+                }),
+            })
+                .then(response => response.json())
+                .then(data => console.log(data));
+        }
+
+        // PUT
+        async function handleUpdateAPIUser() {
+            fetch('http://localhost:3000/api/tuanthanh/users/3', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: 'Updated User',
+                    email: 'updateduser@example.com',
+                    password: 'newpassword123'
+                }),
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Something went wrong with the update request.');
+                    }
+                })
+                .then(data => console.log('Update successful:', data))
+                .catch(error => console.error('Failed to update user:', error));
+        }
+
+
+        // DELETE
+        function handleDeleteAPIUser() {
+            fetch('http://localhost:3000/api/tuanthanh/users/3', {
+                method: 'DELETE'
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok: ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => console.log('Delete successful:', data))
+                .catch(error => console.error('Failed to delete user:', error));
+        }
+
+
 
     </script>
+
 </body>
 
 </html>
