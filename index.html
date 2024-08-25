@@ -10,69 +10,84 @@
 <body>
 
     <script>
+        const url = "https://jsa37-api-bca8a1a0f23b.herokuapp.com/api/hainam/users";
+
+        paramsUser = {
+            fullName: "qqqqqqqqqqqqq",
+            email: "buiducthang@gmail.com",
+            password: "123456789",
+            phone: "0368795468",
+            address: "Hà Nội",
+            dateOfBirth: "05/06/1999"
+        }
+
+        handleDeleteAPIUser(url, 3)
+
         // Lấy ra dữ liệu
-        async function handleGetAPIUser() {
-            fetch('http://localhost:3000/api/tuanthanh/users')
-                .then(response => response.json())
-                .then(data => console.log(data));
+        async function handleGetAPIUser(url) {
+            try {
+                const data = await fetch(url)
+                const res = await data.json()
+
+                console.log(res)
+            } catch (error) {
+                console.error(error)
+            } finally {
+                console.log("Đã hoàn thành")
+            }
         }
 
         // POST
-        async function handleCreateAPIUser() {
-            fetch('http://localhost:3000/api/tuanthanh/products', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    name: 'New User2',
-                    email: 'newuser@example.com',
-                    password: 'password123',
-                    age: 'password123'
-                }),
-            })
-                .then(response => response.json())
-                .then(data => console.log(data));
+        // Param là 1 object
+        async function handleCreateAPIUser(url, params) {
+            try {
+                const data = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(params),
+                });
+
+                const res = await data.json()
+                console.log(res)
+            } catch (error) {
+                console.error(error)
+            } finally {
+                console.log("Đã hoàn thành")
+            }
         }
 
         // PUT
-        async function handleUpdateAPIUser() {
-            fetch('http://localhost:3000/api/tuanthanh/users/3', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    name: 'Updated User',
-                    email: 'updateduser@example.com',
-                    password: 'newpassword123'
-                }),
-            })
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw new Error('Something went wrong with the update request.');
-                    }
-                })
-                .then(data => console.log('Update successful:', data))
-                .catch(error => console.error('Failed to update user:', error));
+        async function handleUpdateAPIUser(url, id, params) {
+            try {
+                const data = await fetch(url + '/' + id, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(params),
+                });
+            } catch (error) {
+                console.error(error)
+            } finally {
+                console.log("Đã hoàn thành")
+            }
         }
 
-
         // DELETE
-        function handleDeleteAPIUser() {
-            fetch('http://localhost:3000/api/tuanthanh/users/3', {
-                method: 'DELETE'
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok: ' + response.statusText);
-                    }
-                    return response.json();
+        async function handleDeleteAPIUser(url, id) {
+            try {
+                const data = fetch(url + "/" + id, {
+                    method: 'DELETE'
                 })
-                .then(data => console.log('Delete successful:', data))
-                .catch(error => console.error('Failed to delete user:', error));
+
+                return data.json();
+            } catch (error) {
+                console.error(error)
+            } finally {
+                console.log("Xóa thành công")
+            }
         }
 
 
