@@ -9,6 +9,9 @@
 
 <body>
 
+    Thêm hình ảnh vào trong thư mục img
+
+
     <script>
         const url = "https://jsa37-api-bca8a1a0f23b.herokuapp.com/api/hainam/users";
 
@@ -20,8 +23,6 @@
             address: "Hà Nội",
             dateOfBirth: "05/06/1999"
         }
-
-        handleDeleteAPIUser(url, 3)
 
         // Lấy ra dữ liệu
         async function handleGetAPIUser(url) {
@@ -78,15 +79,20 @@
         // DELETE
         async function handleDeleteAPIUser(url, id) {
             try {
-                const data = fetch(url + "/" + id, {
+                const response = await fetch(url + "/" + id, {
                     method: 'DELETE'
                 })
 
-                return data.json();
+                if (!response.ok) {
+                    throw new Error('Xóa không thành công');
+                }
+
+                console.log("Xóa thành công")
+                return response.json();
             } catch (error) {
                 console.error(error)
             } finally {
-                console.log("Xóa thành công")
+                console.log("Đã hoàn thành")
             }
         }
 
